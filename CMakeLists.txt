@@ -1,12 +1,9 @@
-# === CMake Template ===
 #
-# TODO: Change <PROJECT-NAME> 
-# TODO: Change executable name  
 # TODO: Add source files to list
 
 cmake_minimum_required(VERSION 3.1...3.7)
 project(
-    MyTemplateRaylibProject
+    boxtrap
     DESCRIPTION "raylib Template"
     LANGUAGES CXX
 )
@@ -15,7 +12,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # === Dependencies ===
 
-# raylib.h gives the raylib version
+# === raylib ===
+# Check GitHub tags for raylib version 
 set(RAYLIB_VERSION 5.0)
 
 find_package(raylib ${RAYLIB_VERSION} QUIET)
@@ -40,16 +38,6 @@ if (NOT raylib_FOUND)
     endif()
 endif()
 
-# Fetch raylib from the master branch on GitHub
-# TODO: Do not set RAYLIB_VERSION variable when using this method
-# FetchContent_Declare
-# (
-#     raylib
-#     GIT_REPOSITORY "https://github.com/raysan5/raylib.git"
-#     GIT_TAG "master"
-#     GIT_PROGRESS TRUE
-# )
-
 
 # === The Project ===
 set(EXECUTABLE_BINARY_NAME game)
@@ -70,6 +58,8 @@ target_include_directories(
     ${EXECUTABLE_BINARY_NAME}
     PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/include
+    PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/entt
 )
 
 # Pass flags to compiler
