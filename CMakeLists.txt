@@ -1,10 +1,9 @@
-#
 # TODO: Add source files to list
 
 cmake_minimum_required(VERSION 3.1...3.7)
 project(
     boxtrap
-    DESCRIPTION "raylib Template"
+    DESCRIPTION "A single player, Chinchompa hunting experience!"
     LANGUAGES CXX
 )
 set(CMAKE_CXX_STANDARD 20)
@@ -40,43 +39,42 @@ endif()
 
 
 # === The Project ===
-set(EXECUTABLE_BINARY_NAME game)
-
 # TODO: Add source files
 set(
     SOURCE_FILES
     src/main.cpp
+    #TODO: Add components and systems 
     #src/components/*.cpp
     #src/systems/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/entt/entt.h
 )
         
 # Tell CMake what to build
-add_executable(${EXECUTABLE_BINARY_NAME} ${SOURCE_FILES})
+add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
-target_link_libraries(${EXECUTABLE_BINARY_NAME} raylib)
+target_link_libraries(${PROJECT_NAME} raylib)
 # Tell CMake where to find header files (*.h)
 target_include_directories(
-    ${EXECUTABLE_BINARY_NAME}
+    ${PROJECT_NAME}
     PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/include/entt/
 )
 
 target_include_directories(
-    ${EXECUTABLE_BINARY_NAME}
+    ${PROJECT_NAME}
     PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/include/components/
 )
 
 target_include_directories(
-    ${EXECUTABLE_BINARY_NAME}
+    ${PROJECT_NAME}
     PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/include/systems/
 )
 
 # Pass flags to compiler
 target_compile_features(
-    ${EXECUTABLE_BINARY_NAME} 
+    ${PROJECT_NAME} 
     PRIVATE
     cxx_std_20
 )
@@ -88,7 +86,7 @@ add_compile_options(${EXTRA_RAYLIB_LIBRARIES})
 
 # Check if OSX and links appropriate frameworks (Only required on MacOS)
 if (APPLE)
-    target_link_libraries(${EXECUTABLE_BINARY_NAME} "-framework IOKit")
-    target_link_libraries(${EXECUTABLE_BINARY_NAME} "-framework CoCoa")
-    target_link_libraries(${EXECUTABLE_BINARY_NAME} "-framework OpenGL")
+    target_link_libraries(${PROJECT_NAME} "-framework IOKit")
+    target_link_libraries(${PROJECT_NAME} "-framework CoCoa")
+    target_link_libraries(${PROJECT_NAME} "-framework OpenGL")
 endif()
