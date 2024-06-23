@@ -46,7 +46,9 @@ set(EXECUTABLE_BINARY_NAME game)
 set(
     SOURCE_FILES
     src/main.cpp
-    src/Foo.cpp
+    #src/components/*.cpp
+    #src/systems/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/entt/entt.h
 )
         
 # Tell CMake what to build
@@ -57,9 +59,19 @@ target_link_libraries(${EXECUTABLE_BINARY_NAME} raylib)
 target_include_directories(
     ${EXECUTABLE_BINARY_NAME}
     PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/entt/
+)
+
+target_include_directories(
+    ${EXECUTABLE_BINARY_NAME}
     PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/entt
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/components/
+)
+
+target_include_directories(
+    ${EXECUTABLE_BINARY_NAME}
+    PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/systems/
 )
 
 # Pass flags to compiler
