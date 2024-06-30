@@ -1,19 +1,42 @@
-# TODO: Add source files to list
-
 cmake_minimum_required(VERSION 3.1...3.22)
 project(
     boxtrap
     DESCRIPTION "An Old School Runescape Fan-game about Chinchompas"
     LANGUAGES C CXX 
 )
+
+# === Setting Variables ===
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# === Dependencies ===
-
-# === raylib ===
 # Check GitHub tags for raylib version 
 set(RAYLIB_VERSION 5.0)
+
+# The simplest possible build command includes tese compiler options (Linux)
+# (See raylib Wiki)
+set(EXTRA_RAYLIB_FLAGS lraylib lGL lm lpthread ldl lrt)
+
+# TODO: Add source files
+set(
+    SOURCE_FILES
+    src/main.cpp
+    vendor/flecs/flecs.c
+    #TODO: Add remaining source files 
+    #${CMAKE_CURRENT_SOURCE_DIR}/src/components/*.cpp
+    #${CMAKE_CURRENT_SOURCE_DIR}/src/entities/*.cpp
+    #${CMAKE_CURRENT_SOURCE_DIR}/src/systems/*.cpp
+)
+
+# Compile flecs.c as a C library with gcc
+set_source_files_properties(
+    vendor/flecs/flecs.c
+    PROPERTIES
+    LANGUAGE C
+    COMPILE_OPTIONS "-std=gnu99" 
+)
+
+# === Get Dependencies ===
+# --- raylib ---
 
 # TODO: Refactor pattern to fetch and build third party deps.
 #   This is a deprecated pattern
@@ -42,7 +65,7 @@ if (NOT raylib_FOUND)
     endif()
 endif()
 
-# === flecs ===
+# --- flecs ---
 find_package(flecs QUIET)
 # If specified version not found, fetch and build flecs 
 if (NOT flecs_FOUND) 
@@ -59,22 +82,19 @@ if (NOT flecs_FOUND)
 endif()
 
 # === The Project ===
-# TODO: Add source files
-set(
-    SOURCE_FILES
-    src/main.cpp
-    vendor/flecs/flecs.c
-    #TODO: Add remaining source files 
-    #${CMAKE_CURRENT_SOURCE_DIR}/src/components/*.cpp
-    #${CMAKE_CURRENT_SOURCE_DIR}/src/entities/*.cpp
-    #${CMAKE_CURRENT_SOURCE_DIR}/src/systems/*.cpp
-)
-        
 # Tell CMake what to build
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
+# Link libraries
 target_link_libraries(${PROJECT_NAME} raylib)
 target_link_libraries(${PROJECT_NAME} flecs::flecs_static)
+# Check if OSX and links appropriate frameworks (Only required on MacOS)
+if (APPLE)
+    target_link_libraries(${PROJECT_NAME} "-framework IOKit")
+    target_link_libraries(${PROJECT_NAME} "-framework CoCoa")
+    target_link_libraries(${PROJECT_NAME} "-framework OpenGL")
+endif()
+# TODO: Explicitly build for Windows, Linux, Mac, and Web
 
 # Tell CMake where to find header files (*.h)
 target_include_directories(
@@ -83,14 +103,7 @@ target_include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/vendor/
 )
 
-# Compile flecs.c as C code
-set_source_files_properties(
-    vendor/flecs/flecs.c
-    PROPERTIES
-    LANGUAGE C
-    COMPILE_OPTIONS "-std=gnu99" 
-)
-
+# === Compiler ===
 # Pass flags to compiler
 target_compile_features(
     ${PROJECT_NAME} 
@@ -98,14 +111,4 @@ target_compile_features(
     cxx_std_20
 )
 
-# The simplest possible build command includes tese compiler options (Linux)
-# (See raylib Wiki)
-set(EXTRA_RAYLIB_FLAGS lraylib lGL lm lpthread ldl lrt)
 add_compile_options(${EXTRA_RAYLIB_FLAGS})
-
-# Check if OSX and links appropriate frameworks (Only required on MacOS)
-if (APPLE)
-    target_link_libraries(${PROJECT_NAME} "-framework IOKit")
-    target_link_libraries(${PROJECT_NAME} "-framework CoCoa")
-    target_link_libraries(${PROJECT_NAME} "-framework OpenGL")
-endif()
