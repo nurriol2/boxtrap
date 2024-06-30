@@ -1,6 +1,5 @@
 #include <raylib.h>
 #include <rcamera.h>
-#include "../include/entt/entt.h"
 
 int main(void)
 {
@@ -22,9 +21,7 @@ int main(void)
 
     // === Exercise ===
     // TODO: Move this exercise into separate namespaces 
-    entt::registry registry; 
     // Construct a naked entity with no components and returns its identifier
-    const auto cube = registry.create();
 
 
     SetTargetFPS(60);                   // Set our game to run at 60 frames-per-second
