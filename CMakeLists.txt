@@ -3,7 +3,7 @@
 cmake_minimum_required(VERSION 3.1...3.7)
 project(
     boxtrap
-    DESCRIPTION "A single player, Chinchompa hunting experience!"
+    DESCRIPTION "An Old School Runescape Fan-game about Chinchompas"
     LANGUAGES CXX
 )
 set(CMAKE_CXX_STANDARD 20)
