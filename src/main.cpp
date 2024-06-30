@@ -1,5 +1,6 @@
 #include <raylib.h>
 #include <rcamera.h>
+#include <../vendor/flecs/flecs.h>
 
 int main(void)
 {
