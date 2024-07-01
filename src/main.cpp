@@ -2,6 +2,8 @@
 #include <rcamera.h>
 #include <../vendor/flecs/flecs.h>
 
+#include <iostream>
+
 int main(void)
 {
     // Initialization
@@ -20,10 +22,26 @@ int main(void)
 
     int cameraMode = CAMERA_THIRD_PERSON;
 
-    // === Exercise ===
-    // TODO: Move this exercise into separate namespaces 
-    // Construct a naked entity with no components and returns its identifier
+    /*** Exercise - Minimum Flecs example ***/
+    // Create a world to contain all the ECS data
+    flecs::world world;
 
+    // Register an entity in the world
+    auto e = world.entity(); 
+    e.is_alive();   // true
+
+    // Destroy the entity
+    e.destruct();
+    e.is_alive();   // false
+
+    // Entity can have a name that is easier to identify
+    auto bob = world.entity("Bob");
+    // Should print Bob
+    std::cout << "Entity Name: " << bob.name() << std::endl;
+
+    //  Now, entities can be looked up by name
+    auto who = world.lookup("Bob");
+    std::cout << "Searching... Found: " << who.name() << std::endl;           
 
     SetTargetFPS(60);                   // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
