@@ -72,3 +72,4 @@ _deps
 # Ignore .cache/
 # TODO: I don't know where this comes from or what's generating it
 #       I think it is related to CMake
+.cache/
