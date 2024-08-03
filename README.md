@@ -1,2 +1,3 @@
-# boxtrap
-Solo Adventure RPG 
+# BoxTrap
+
+Solo Adventure RPG
